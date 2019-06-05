@@ -37,7 +37,7 @@
           <!--Nombre-->
           <mat-form-field>                                                                          <!--valida ñ y tildes-->
             <input matInput type="text" placeholder="Nombre" name="nombre" maxlength="120" pattern="[0-9a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+"
-              [ngClass]="{'is-invalid': formulario.submitted && producto.invalid}" required
+              [ngClass]="{'is-invalid': formulario.submitted && nombre.invalid}" required
               #nombre="ngModel" [(ngModel)]="model.nombre">
             <mat-error *ngIf="nombre.errors?.pattern">El nombre debe tener unicamente letra y números</mat-error>
             <mat-error *ngIf="nombre.errors?.required">El nombre de la categoría es requerido</mat-error>
