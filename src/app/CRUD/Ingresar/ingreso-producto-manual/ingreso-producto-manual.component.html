@@ -1,0 +1,206 @@
+<nb-layout>
+
+    <nb-layout-header fixed>
+        <app-encabezado></app-encabezado>
+    </nb-layout-header>
+
+    <nb-sidebar tag="menu-sidebar">
+        <app-barra-menu></app-barra-menu>
+    </nb-sidebar>
+
+    <nb-layout-column>
+        <!-- -----------------------------------------------------------------------
+        ---------Formulario de ingreso de nuevos producto manual---------------
+        ----------------------------------------------------------------------- -->
+        <!-- TODO: validación fecha de vencimiento-->
+        <mat-card class="formulario">
+          <!-- -----------------------------------------------------------------------
+            -----------------------Titulo descriptivo del formulario---------------------------
+            ----------------------------------------------------------------------- -->
+          <div class="cont-titulo">
+            <mat-card>
+              <mat-card-title>Ingresar Producto</mat-card-title>
+            </mat-card>
+          </div>
+          <!-- -----------------------------------------------------------------------
+            -----------------------Opciones del Formulario---------------------------
+            ----------------------------------------------------------------------- -->
+          <div class="cont-opciones">
+            <form class="form-ingreso" #formulario="ngForm" (ngSubmit)="formulario.form.valid && datosModal(formulario)">
+              <!-- -----------------------------------------------------------------------
+                    -----------------------Elemento Producto---------------------------
+                    ----------------------------------------------------------------------- -->
+              <mat-form-field>
+                <input matInput type="text" placeholder="Producto" name="producto"
+                maxlength="120" pattern="[0-9a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+" [ngClass]="{'is-invalid': formulario.submitted && producto.invalid}" required
+               #producto="ngModel" [(ngModel)]="model.producto">
+                <mat-error *ngIf="producto.errors?.pattern">El nombre debe tener únicamente letra y números</mat-error>
+                <mat-error *ngIf="producto.errors?.required">El nombre del producto es requerido</mat-error>
+              </mat-form-field>
+              <!-- --------------------------------------------------------------------- -->
+              <!-- -----------------------------------------------------------------------
+                        -----------------------Elemento Código---------------------------
+                        ----------------------------------------------------------------------- -->
+              <div class="dos-elementos">
+                <mat-form-field>
+                    <input matInput placeholder="Código" type="text"
+                      maxlength="7" minlength ="6" pattern="[A-Z]{3}-[0-9]{2,3}" [ngClass]="{'is-invalid': formulario.submitted && codigo.invalid}" required
+                      name="codigo" #codigo="ngModel" [(ngModel)]="model.codigo" >
+                    <mat-error *ngIf="codigo.errors?.pattern">El código debe poseer el siguiente patrón ABC-123</mat-error>
+                    <mat-error *ngIf="codigo.errors?.required">El código es requerido</mat-error>
+                </mat-form-field>
+                <!-- --------------------------------------------------------------------- -->
+                <span></span>
+                <!-- -----------------------------------------------------------------------
+                              -----------------------Elemento Categoría---------------------------
+                              ----------------------------------------------------------------------- -->
+                <mat-form-field class="span">
+                  <select matNativeControl placeholder="Categoría" required
+                       ng-init="seleccion" name="categoria" #categoria="ngModel" [(ngModel)]="model.categoria">
+                    <option></option>
+                    <option *ngFor = "let c of categorias">{{ c.NOMBRE_CATEGORIA }}</option>
+                  </select>
+                  <mat-error *ngIf="categoria.errors?.required">La categoría es requerida</mat-error>
+                </mat-form-field>
+              </div>
+              <!-- --------------------------------------------------------------------- -->
+              <div class="dos-elementos">
+                <!-- -----------------------------------------------------------------------
+                            -----------------------Elemento Sub Categoría---------------------------
+                            ----------------------------------------------------------------------- -->
+                <mat-form-field>
+                  <select matNativeControl placeholder="Sub Categoría"
+                        name="subcategoria" #subcategoria="ngModel" [(ngModel)]="model.subcategoria" >
+                    <option></option>
+                    <option *ngFor = "let sub of subcategorias">{{ sub.NOMBRE_SUB_CATEGORIA }}</option>
+                  </select>
+                </mat-form-field>
+                <!-- --------------------------------------------------------------------- -->
+                <span></span>
+                <!-- -----------------------------------------------------------------------
+                            -----------------------Elemento Presentación---------------------------
+                            ----------------------------------------------------------------------- -->
+                <mat-form-field>
+                  <select matNativeControl placeholder="Presentación"
+                        name="presentacion" #presentacion="ngModel" [(ngModel)]="model.presentacion" >
+                    <option></option>
+                    <option *ngFor = "let p of presentaciones">{{ p.NOMBRE_PRESENTACION }}</option>
+                  </select>
+                </mat-form-field>
+                <!-- --------------------------------------------------------------------- -->
+
+              </div>
+              <!-- --------------------------------------------------------------------- -->
+              <div class="dos-elementos">
+                <!-- -----------------------------------------------------------------------
+                            -----------------------Elemento Unidad---------------------------
+                            ----------------------------------------------------------------------- -->
+                <mat-form-field>
+                  <input matInput placeholder="Unidad"
+                    min="0" maxlength="9" pattern="[-+]?[0-9]*\.?[0-9]+"
+                    name="unidad" #unidad="ngModel" [(ngModel)]="model.unidad">
+                    <mat-error *ngIf="unidad.errors?.pattern">Solo se permiten números</mat-error>
+                </mat-form-field>
+                <!-- --------------------------------------------------------------------- -->
+                <span></span>
+                <!-- -----------------------------------------------------------------------
+                            -----------------------Elemento Unidad de Medida---------------------------
+                            ----------------------------------------------------------------------- -->
+                <mat-form-field class="span">
+                  <select matNativeControl placeholder="Unidad de presentación"
+                      name="unidadpresentacion" #unidadpresentacion="ngModel" [(ngModel)]="model.unidadpresentacion">
+                    <option></option>
+                    <option *ngFor = "let un of unidades">{{ un.NOMBRE_UNIDAD }}</option>
+                  </select>
+                </mat-form-field>
+                <!-- --------------------------------------------------------------------- -->
+              </div>
+              <!-- --------------------------------------------------------------------- -->
+              <div class="dos-elementos">
+                <!-- -----------------------------------------------------------------------
+                            -----------------------Elemento Costo---------------------------
+                            ----------------------------------------------------------------------- -->
+                <mat-form-field>
+                  <input matInput placeholder="Costo"
+                    min="0" maxlength="9" pattern="[-+]?[0-9]*\.?[0-9]+"
+                    name="costo" #costo="ngModel" [(ngModel)]="model.costo">
+                    <mat-error *ngIf="costo.errors?.pattern">Solo se permiten números</mat-error>
+                </mat-form-field>
+                <!-- --------------------------------------------------------------------- -->
+                <span></span>
+                <!-- -----------------------------------------------------------------------
+                            -----------------------Elemento Moneda---------------------------
+                            ----------------------------------------------------------------------- -->
+                <mat-form-field class="span">
+                  <select matNativeControl placeholder="Moneda"
+                      name="moneda" #moneda="ngModel" [(ngModel)]="model.moneda">
+                    <option></option>
+                    <option value="Colones">Colones</option>
+                    <option value="Dólares">Dólares</option>
+                  </select>
+                </mat-form-field>
+                <!-- --------------------------------------------------------------------- -->
+              </div>
+              <!-- --------------------------------------------------------------------- -->
+              <div class="dos-elementos">
+                  <!-- -----------------------------------------------------------------------
+                              -----------------------Estado Crítico---------------------------
+                              ----------------------------------------------------------------------- -->
+                  <mat-form-field>
+                    <input matInput placeholder="Estado Crítico"
+                      min="0" maxlength="9" pattern="[-+]?[0-9]*\.?[0-9]+"
+                      name="estado" #estado="ngModel" [(ngModel)]="model.estado">
+
+                  </mat-form-field>
+                  <!-- --------------------------------------------------------------------- -->
+                  <span></span>
+                  <!-- -----------------------------------------------------------------------
+                        -----------------------Elemento Fecha de Vencimiento---------------------------
+                        ----------------------------------------------------------------------- -->
+                    <mat-form-field>
+                         <input matInput type="date" placeholder="Fecha de Vencimiento" timezone="[[timezone]]"
+                           name="fechaVencimiento" #fechaVencimiento="ngModel" [(ngModel)]="model.fechaVencimiento">
+                    </mat-form-field>
+              </div>
+
+              <!-- --------------------------------------------------------------------- -->
+              <!-- -----------------------------------------------------------------------
+                    -----------------------Elemento Proveedor---------------------------
+                    ----------------------------------------------------------------------- -->
+              <mat-form-field>
+                <select matNativeControl placeholder="Proveedor" required
+                    ng-init="seleccion" name="proveedor" #proveedor="ngModel" [(ngModel)]="model.proveedor">
+                    <!-- TODO: [(ngValue)]="seleccion" [disabled]="true" -->
+                    <option></option>
+                    <option *ngFor="let p of proveedores"> {{ p.NOMBRE_PROVEEDOR }}</option>
+                </select>
+                <mat-error *ngIf="proveedor.errors?.required">El proveedor es requerido</mat-error>
+              </mat-form-field>
+              <!-- --------------------------------------------------------------------- -->
+              <!-- -----------------------------------------------------------------------
+                    -----------------------Elemento Descripción---------------------------
+                    ----------------------------------------------------------------------- -->
+              <mat-form-field class="descripcion">
+                <textarea  matInput name="descripcion" placeholder="Descripción" maxlength="150" #descripcion="ngModel" [(ngModel)]="model.descripcion"></textarea>
+              </mat-form-field>
+              <!-- --------------------------------------------------------------------- -->
+              <!-- -----------------------------------------------------------------------
+                -----------------------Botones ingresar y cancelar---------------------------
+                ----------------------------------------------------------------------- -->
+              <mat-card-actions class="botones">
+                <!-- TODO: Revisar la opcion de limpiar con la BD corriendo -->
+                <button class="btn-cancelar" mat-stroked-button color="warn" type="reset">Limpiar</button>
+                <button *nbIsGranted="['create', 'ingresar']" class="btn-ingresar" mat-raised-button color="primary" type=submit>Ingresar</button>
+              </mat-card-actions>
+            </form>
+          </div>
+        </mat-card>
+
+
+    </nb-layout-column>
+
+    <nb-layout-footer fixed>
+        <app-pie-pagina></app-pie-pagina>
+    </nb-layout-footer>
+
+</nb-layout>

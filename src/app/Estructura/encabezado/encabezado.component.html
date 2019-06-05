@@ -1,0 +1,14 @@
+<div class="header-container">
+  <div class="logo-containter">
+    <a (click)="toggleSidebar()" href="#" class="navigation"> <!--despliega o "esconde" el menú según sea el caso-->
+        <img class="centrado" id="imgApp" src="assets/menu-outline.png" >
+    </a>
+    <!--muestra el logo del sistema, permite la redirección al inicio-->
+    <div class="logo" href="#" [routerLink]="['/inicio']" routerLinkActive="router-link-active">
+        <img class="centrado" id="imgApp" src="assets/logo-pagina/Incolab2.png">
+    </div>
+  </div>
+</div>
+<div class="header-container">
+    <!-- Area para el login y otras cosas -->
+</div>

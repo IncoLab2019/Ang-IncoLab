@@ -1,0 +1,68 @@
+<nb-layout>
+
+  <nb-layout-header fixed>
+      <app-encabezado></app-encabezado> <!--Llamado al componente encabezado-->
+  </nb-layout-header>
+
+  <nb-layout-column>
+      <!-- -----------------------------------------------------------------------
+      ---------Formulario de ingreso de nuevas Sucursales---------------
+      ----------------------------------------------------------------------- -->
+      <mat-card class="formulario">  <!--mat proviene de Angular Material (API)-->
+          <!-- -----------------------------------------------------------------------
+            -----------------------Titulo descriptivo del formulario---------------------------
+            ----------------------------------------------------------------------- -->
+          <div class="cont-titulo">
+            <mat-card>
+              <mat-card-title>Ingresar Presentación</mat-card-title>
+            </mat-card>
+          </div>
+          <!-- TODO: Tratar de agregar el metodo de limpieza de input: https://material.angular.io/components/input/examples  -->
+          <!-- -----------------------------------------------------------------------
+            -----------------------Opciones del Formulario---------------------------
+            ----------------------------------------------------------------------- -->
+          <div class="cont-opciones">
+              <form class="form-ingreso" #formulario="ngForm" (ngSubmit)="formulario.form.valid && datosModal(formulario)">
+                    <!--ID-->
+                    <mat-form-field>
+                      <input matInput type="text" placeholder="ID Presentación" name="idPresentacion"
+                      maxlength="9" pattern="[0-9]+" [ngClass]="{'is-invalid': formulario.submitted && idPresentacion.invalid}" required
+                      name="idPresentacion" #idPresentacion="ngModel" [(ngModel)]="model.idPresentacion">
+                      <!--mensaje de error debido a espacio requerido-->
+                      <mat-error *ngIf="idPresentacion.errors?.required">El ID de la Presentación es requerido</mat-error>
+                      <mat-error *ngIf="idPresentacion.errors?.pattern">Formato de ID inválido</mat-error>
+                    </mat-form-field>
+
+                    <span></span>
+
+                    <!--NOMBRE-->
+                    <mat-form-field>
+                      <input matInput type="text" placeholder="Nombre" name="nombre" maxlength="120" pattern="[0-9a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+"
+                        [ngClass]="{'is-invalid': formulario.submitted && nombre.invalid}" required
+                        #nombre="ngModel" [(ngModel)]="model.nombre">
+                      <mat-error *ngIf="nombre.errors?.pattern">El nombre debe tener unicamente letra y números</mat-error>
+                      <mat-error *ngIf="nombre.errors?.required">El nombre de la presentación es requerido</mat-error>
+                    </mat-form-field>
+
+                    <span></span>
+
+                      <!--------------Botones de acción-------------->
+                      <mat-card-actions class="botones">
+                        <!-- TODO: Revisar la opcion de limpiar con la BD corriendo -->
+                        <button class="btn-cancelar" mat-stroked-button color="warn" type="reset">Limpiar</button>
+                        <button class="btn-ingresar" *nbIsGranted="['create', 'ingresar']" mat-raised-button color="primary" type=submit>Ingresar</button>
+                      </mat-card-actions>
+              </form>
+          </div>
+      </mat-card>
+
+  </nb-layout-column>
+
+  <nb-sidebar tag="menu-sidebar">
+      <app-barra-menu></app-barra-menu> <!--llamado al componente menu, se coloca a la izquierda verticalmente-->
+  </nb-sidebar>
+
+  <nb-layout-footer fixed>
+      <app-pie-pagina></app-pie-pagina> <!--llamado al componente footer-->
+  </nb-layout-footer>
+</nb-layout>

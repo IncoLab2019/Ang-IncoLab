@@ -1,0 +1,11 @@
+@import '../../../themes';
+@import '~bootstrap/scss/mixins/breakpoints';
+@import '~@nebular/theme/styles/global/breakpoints';
+
+nb-card {
+  border: none;
+
+  nb-card-body {
+    background-color: rgb(227, 233, 238);
+  }
+}

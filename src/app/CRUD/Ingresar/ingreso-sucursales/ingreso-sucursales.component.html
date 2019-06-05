@@ -1,0 +1,104 @@
+<!-- -----------------------------------------------------------------------
+---------Formulario de ingreso de nuevas Sucursales---------------
+----------------------------------------------------------------------- -->
+<nb-layout>
+
+    <nb-layout-header fixed>
+        <app-encabezado></app-encabezado>
+    </nb-layout-header>
+
+    <nb-layout-column>
+        <mat-card class="formulario">
+            <!-- -----------------------------------------------------------------------
+              -----------------------Titulo descriptivo del formulario---------------------------
+              ----------------------------------------------------------------------- -->
+            <div class="cont-titulo">
+              <mat-card>
+                <mat-card-title>Ingresar Sucursal</mat-card-title>
+              </mat-card>
+            </div>
+            <!-- TODO: Tratar de agregar el metodo de limpieza de input: https://material.angular.io/components/input/examples  -->
+            <!-- -----------------------------------------------------------------------
+              -----------------------Opciones del Formulario---------------------------
+              ----------------------------------------------------------------------- -->
+            <div class="cont-opciones">
+              <form class="form-ingreso" #formulario="ngForm" (ngSubmit)="formulario.form.valid && datosModal(formulario)">
+
+
+                <div class="dos-elementos">
+
+                  <!-- -----------------------------------------------------------------------
+                      -----------------------ID Sucursal---------------------------
+                      ----------------------------------------------------------------------- -->
+                <mat-form-field>
+                    <input matInput type="text" placeholder="ID Sucursal" name="idSucursal"
+                    maxlength="7" minlength="6" pattern="[A-Z]{3}-[0-9]{2,3}"
+                    [ngClass]="{'is-invalid': formulario.submitted && idSucursal.invalid}" required
+                    name="idSucursal" #idSucursal="ngModel" [(ngModel)]="model.idSucursal">
+                    <mat-error *ngIf="idSucursal.errors?.required">El ID de la Sucursal  es requerido</mat-error>
+                    <mat-error *ngIf="idSucursal.errors?.pattern">Formato de ID inválido</mat-error>
+                  </mat-form-field>
+                   <!-- --------------------------------------------------------------------- -->
+                <!-- -----------------------------------------------------------------------
+                          -----------------------Nombre de la sucursal---------------------------
+                          ----------------------------------------------------------------------- -->
+                          <span></span>
+                    <mat-form-field>
+                        <input matInput type="text" placeholder="Nombre" name="nombre"
+                        maxlength="30" pattern="[0-9a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+" [ngClass]="{'is-invalid': formulario.submitted && nombre.invalid}" required
+                        name="nombre" #nombre="ngModel" [(ngModel)]="model.nombre">
+                        <mat-error *ngIf="nombre.errors?.required">El nombre es requerido</mat-error>
+                      </mat-form-field>
+                      <!-- --------------------------------------------------------------------- -->
+
+
+                <span></span>
+                <!-- -----------------------------------------------------------------------
+                            -----------------------Telefono---------------------------
+                            ----------------------------------------------------------------------- -->
+                     <mat-form-field>
+                    <input matInput type="text" placeholder="Telefono" name="telefono"
+                    maxlength="12" pattern="[0-9]+" [ngClass]="{'is-invalid': formulario.submitted && telefono.invalid}" required
+                     name="telefono" #telefono="ngModel" [(ngModel)]="model.telefono">
+                     <mat-error *ngIf="telefono.errors?.pattern">Solo se permiten números</mat-error>
+
+                    </mat-form-field>
+                </div>
+
+
+                      <!-- -----------------------------------------------------------------------
+                                  -----------------------Direccion sucursal---------------------------
+                                  ----------------------------------------------------------------------- -->
+                 <mat-form-field>
+                  <input matInput type="text" placeholder="Direción Sucursal" name="direccion"
+                  maxlength="150"  [ngClass]="{'is-invalid': formulario.submitted && direccion.invalid}" required
+                  name="direccion" #direccion="ngModel" [(ngModel)]="model.direccion">
+                  <mat-error *ngIf="direccion.errors?.required">La dirección de la sucursal es requerido</mat-error>
+                  <mat-error *ngIf="direccion.errors?.required">No se permiten espacios</mat-error>
+                </mat-form-field>
+
+                <!-- --------------------------------------------------------------------- -->
+
+                <!-- --------------------------------------------------------------------- -->
+                <!-- -----------------------------------------------------------------------
+                  -----------------------Botones ingresar y cancelar---------------------------
+                  ----------------------------------------------------------------------- -->
+                <mat-card-actions class="botones">
+                  <!-- TODO: Revisar la opcion de limpiar con la BD corriendo -->
+                  <button class="btn-cancelar" mat-stroked-button color="warn" type="reset">Limpiar</button>
+                  <button class="btn-ingresar" *nbIsGranted="['create', 'ingresar']" mat-raised-button color="primary" type=submit>Ingresar</button>
+                </mat-card-actions>
+              </form>
+            </div>
+          </mat-card>
+    </nb-layout-column>
+
+    <nb-sidebar tag="menu-sidebar">
+        <app-barra-menu></app-barra-menu>
+    </nb-sidebar>
+
+    <nb-layout-footer fixed>
+        <app-pie-pagina></app-pie-pagina>
+    </nb-layout-footer>
+
+</nb-layout>
